@@ -1,0 +1,25 @@
+[{
+    "id": "1",
+    "user_id": "4",
+    "user_path": "4\/",
+    "setting_path": "",
+    "created_at": "2019-09-22 21:34:42",
+    "updated_at": "2019-09-22 21:34:42",
+    "tabs": null,
+    "view": "Timeline",
+    "theme": "default",
+    "public_view": "Home"
+},
+{
+    "id": "2",
+    "user_id": "2",
+    "user_path": "2\/",
+    "setting_path": "",
+    "created_at": "2019-09-23 05:51:40",
+    "updated_at": "2019-09-23 05:51:40",
+    "tabs": null,
+    "view": "timeline",
+    "theme": "default",
+    "public_view": "Home"
+}
+]
