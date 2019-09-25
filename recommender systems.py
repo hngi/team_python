@@ -1,8 +1,6 @@
 import pandas as pd
 import os
-import requests
-import urllib.request
-from bs4 import BeautifulSoup
+
 dir_ ='json_data'
 json_data = [i for i in os.listdir(dir_)]
 print(json_data)
@@ -26,21 +24,6 @@ df1['title'] = [str.lower(i) for i in df1['title']]
 df1['combine_features'] =  [str.lower(i) for i in df1['features']]
 df1['combine_features'] = [i.replace(" ","") for i in df1['combine_features']]
 html = input()
-def get_user_id_from_site(html):   
-    url = html
-    response = requests.get(url)
-    seen = BeautifulSoup(response.text)
-    metas = seen.find_all('meta')
-    cd =[meta.attrs["content"] for meta in metas if 'name' in meta.attrs and meta.attrs['name'] == 'user_id']
-    return cd
-
-def title_from_site(html):
-    url = html
-    response = requests.get(url)
-    seen = BeautifulSoup(response.content, "html.parser")
-    metas2 = seen.find_all("meta")
-    cg =[meta.attrs["content"] for meta in metas2 if 'property' in meta.attrs and meta.attrs['name'] == 'og.title']
-    return cg
 
 def get_title_from_id(id_):
     titles = df1[df1.id==id_].title
@@ -72,7 +55,13 @@ def content_recommender(titles,df1=df1):
     cg = df1['action'].iloc[reco]
     ggg = pd.DataFrame([gg,cg],).transpose()
     cgg = ggg.groupby('title')['action'].count().sort_values(ascending = False)
-    return cgg.index[1:11].values
+    #return first 10 titles to be recommended
+    cb = []
+    for i in range(1,11):
+        cb.append(cgg.index[i])
+    x = pd.Series(cb)
+    return x
+
 
 def action_recommender(id_):
     action = check_action(id_)
@@ -81,7 +70,7 @@ def action_recommender(id_):
         content_recommender(title,df1)
     else:
         return None
-    
+#simple test    
 test = content_recommender('Task 2')
 
 
