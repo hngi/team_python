@@ -11,7 +11,12 @@ jn =[]
 for i in range(len(json_data)):
     jsn= pd.read_json('json_data/'+ json_data[i])
     jn.append(jsn)
-jn[2].drop(['action'],axis=1,inplace= True)
+#save the tag column
+jj = jn[2].copy()
+jn[2].dropna(axis=1,inplace = True)
+jn[2]['tags'] = jj['tags']
+jn[1].dropna(axis=1,inplace = True)
+#get a dataframe
 df1 = pd.merge_ordered(jn[1],jn[2],on='id',how='inner')    
 df1.head()
 
@@ -23,7 +28,6 @@ df1['features'] = df1['title']+df1['content']+df1['tags']
 df1['title'] = [str.lower(i) for i in df1['title']]
 df1['combine_features'] =  [str.lower(i) for i in df1['features']]
 df1['combine_features'] = [i.replace(" ","") for i in df1['combine_features']]
-html = input()
 
 def get_title_from_id(id_):
     titles = df1[df1.id==id_].title
