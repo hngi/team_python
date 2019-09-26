@@ -4,18 +4,23 @@ import os
 dir_ ='json_data'
 json_data = [i for i in os.listdir(dir_)]
 print(json_data)
+
 # for content based recomender system, I'll use notification,thoughts, following, contact
 json_data =[ json_data[2],json_data[4],json_data[5],json_data[6]]
 jn =[]
+
 #create a list of the dataframes
 for i in range(len(json_data)):
     jsn= pd.read_json('json_data/'+ json_data[i])
     jn.append(jsn)
+
+
 #save the tag column
 jj = jn[2].copy()
 jn[2].dropna(axis=1,inplace = True)
 jn[2]['tags'] = jj['tags']
 jn[1].dropna(axis=1,inplace = True)
+
 #get a dataframe
 df1 = pd.merge_ordered(jn[1],jn[2],on='id',how='inner')    
 df1.head()
