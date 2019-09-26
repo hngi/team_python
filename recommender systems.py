@@ -55,7 +55,7 @@ def content_recommender(titles,df1=df1):
     cosine_sim= cosine_similarity(count_matrix,count_matrix)
     ind = pd.Series(df1.index, index=df1['combine_features'])
  
-    idx = ind[df1['combine_features']] 
+    idx = ind[titles] 
     sim_scores = list(enumerate(cosine_sim[idx]))
     sim_scores = sorted(sim_scores, reverse=True)
     sim_scores = sim_scores[1:50]
