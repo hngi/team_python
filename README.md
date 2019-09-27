@@ -11,6 +11,17 @@
 - Requirements of the system can be found [here](https://lucid.blog/hngi6/post/task-3-ml-recommender-system-ee2)
 
 ## :page_with_curl: _Installation Guide_
-- Coming Soon
+
+**1)** Fire up your favourite console & clone this repo somewhere:
+
+__`❍ git clone https://github.com/hngi/team_python.git`__
+
+**2)** Enter this directory:
+
+__`❍ cd team_python`__
+
+**3)** To get recommendations to articles, use this command:
+
+__`❍ python full_recommender.py 'Title of article'`__
 
 __*Happy developing!*__
