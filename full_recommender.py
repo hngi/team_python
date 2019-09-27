@@ -10,38 +10,38 @@ Original file is located at
 #importing libraries
 import pandas as pd
 import numpy as np
+import sys
+import sqlalchemy
 import sklearn
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
+# Get the Title from passed arguments
+title = sys.argv[1]
+
+# Create the database engine
+engine = sqlalchemy.create_engine('mysql://root:@localhost:3306/lucid')
+
 #reading the posts table
-l_posts = pd.read_json('json_data/lucid_table_posts.json',orient='columns')
+l_posts = pd.read_sql_table('posts', engine)
 
 #reading the notifications table
-l_nots = pd.read_json('json_data/lucid_table_notifications.json',orient='columns')
+l_nots = pd.read_sql_table('notifications', engine)
 
 #reading the following  table
-l_follow =  pd.read_json('json_data/lucid_table_following.json',orient='columns')
+l_follow =  pd.read_sql_table('following', engine)
 
 #reading the thoughts table
-l_thoughts =  pd.read_json('json_data/lucid_table_thoughts.json',orient='columns')
+l_thoughts =  pd.read_sql_table('thoughts', engine)
 
 #reading the users table
-l_users =  pd.read_json('json_data/lucid_table_users.json',orient='columns')
-
-#displaying first 3 rows in the posts table 
-l_posts.head(3)
+l_users =  pd.read_sql_table('users', engine)
 
 #selecting the columns needed in the posts table
 posts = l_posts[['id','user_id','title']]
-posts.head()
-
-#displaying first 3 rows in the notifications table 
-l_nots.head(3)
 
 #selecting the columns needed in the notifications table
 notifs = l_nots[['id', 'user_id', 'action']]
-notifs.head()
 
 """# MOST POPULAR ARTICLES"""
 
@@ -50,13 +50,8 @@ pop_articles = posts.merge(notifs, on='user_id')
 
 #grouping the most followed people by name and their follower_id in descending ordrer
 pop_articles = pop_articles.groupby('title')['action'].count().sort_values(ascending=False)
-print("TOP 10 RECOMMENDATIONS BASED ON MOST POPULAR ARTICLES\n")
-print(pop_articles.head(10))
 
 """#CONTENT BASED RECOMMENDER"""
-
-#displaying first 10 rows in title column in the posts table
-posts['title'].head(10)
 
 #Remove all english stop words such as 'the', 'a'
 tfidf = TfidfVectorizer(stop_words='english')
@@ -95,6 +90,9 @@ def get_recommendations(title, cosine_sim=cosine_sim):
     return posts['title'].iloc[post_indices]
   
   except KeyError:
-    print("We Have No Recommendations For You!")
+    print("We Have No Recommendations For You Based on your input!")
+    print("BUT THESE ARE THE TOP 10 RECOMMENDATIONS BASED ON MOST POPULAR ARTICLES\n")
+    for i in pop_articles.index[:10]:
+        print(i)
 
-get_recommendations('First HTML Project')
+get_recommendations(title)
