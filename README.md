@@ -20,7 +20,15 @@ __`❍ git clone https://github.com/hngi/team_python.git`__
 
 __`❍ cd team_python`__
 
-**3)** To get recommendations to articles, use this command:
+**3)** Update pip:
+
+__`❍ python -m pip install --upgrade pip`__
+
+**4)** Install other python packages/dependencies using the requirement file:
+
+__`❍ pip3 install -r requirements.txt`__
+
+**5)** To get recommendations to articles, use this command:
 
 __`❍ python full_recommender.py 'Title of article'`__
 
