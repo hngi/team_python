@@ -33,7 +33,7 @@ def user_recommendation():
     
     df['features'] = df['display_message']+''+df['short_bio']+''+df['tags']
     df['combined_features'] =  [str.lower(i) for i in df['features']]
-    
+    #functions
     def get_combined_feature(user):
         feat = df[df.user_id==user].combined_features
         return feat.unique()[0]
@@ -63,7 +63,7 @@ def user_recommendation():
     def get_name_from_user_id (user):
         name = df[df.user_id==user].username
         return name.unique()[0]
-    
+    #sub main function
     def user_recommendation_base (user):
         #for a new user who hasn't made any actions yet:
         feat= get_combined_feature(user)
@@ -92,9 +92,10 @@ def user_recommendation():
                 cb.append(cgg.index[i])
         x = pd.Series(cb)
         return x.values
-        
+    #main function   
     def user_recommed(user):
         action = get_actions (user)
+        #for new users
         if action==0:
                result = user_recommendation_base(user)
                return result
