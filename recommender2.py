@@ -1,6 +1,7 @@
 def user_recommendation():
     import pandas as pd
     import os
+    import numpy as np
     dir_ ='C:/Users/Ademola/Desktop/dataset/json_data'
     json_data = [i for i in os.listdir(dir_)]
     print(json_data)
@@ -108,6 +109,7 @@ def user_recommendation():
                     whys.append(feat)
                     #get recommedations based on popularly similar people u sent notifications
                     ex = user_recommendation_base(i)
+                    ex = ex.astype(np.int32)
                     exes.append(ex)
                 return exes
                 return feat
