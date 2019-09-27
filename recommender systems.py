@@ -31,8 +31,7 @@ for feature in features:
     
 df1['features'] = df1['title']+df1['content']+df1['tags']
 df1['title'] = [str.lower(i) for i in df1['title']]
-df1['combine_features'] =  [str.lower(i) for i in df1['features']]
-df1['combine_features'] = [i.replace(" ","") for i in df1['combine_features']]
+df1['combine_features'] =  [str.lower(i) for i in df1['features']
 
 def get_title_from_id(id_):
     titles = df1[df1.id==id_].title
