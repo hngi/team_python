@@ -29,8 +29,8 @@ features = ['title', 'content', 'tags']
 for feature in features:
     df1[feature] = df1[feature].fillna('')
     
-df1['features'] = df1['title']+df1['content']+df1['tags']
-df1['title'] = [str.lower(i) for i in df1['title']]
+df1['features'] = df1['title']+' '+df1['content']+' '+df1['tags']
+df1['titler'] = [str.lower(i) for i in df1['title']]
 df1['combine_features'] =  [str.lower(i) for i in df1['features']
 
 def get_title_from_id(id_):
@@ -46,18 +46,19 @@ def check_action(id_):
     return action.values[0]
  
 def content_recommender(titles,df1=df1):
+   try:
     titles = str.lower(titles)
     from sklearn.feature_extraction.text import CountVectorizer
     count = CountVectorizer(stop_words='english')
     count_matrix = count.fit_transform(df1['combine_features'])
     from sklearn.metrics.pairwise import cosine_similarity
     cosine_sim= cosine_similarity(count_matrix,count_matrix)
-    ind = pd.Series(df1.index, index=df1['combine_features'])
+    ind = pd.Series(df1.index, index=df1['titler'])
  
-    idx = ind[df1['combine_features']] 
+    idx = ind[df1[titles]]
     sim_scores = list(enumerate(cosine_sim[idx]))
     sim_scores = sorted(sim_scores, reverse=True)
-    sim_scores = sim_scores[1:50]
+    sim_scores = sim_scores[1:]
     reco = [i[0] for i in sim_scores]
     gg = df1['title'].iloc[reco]
     cg = df1['action'].iloc[reco]
@@ -65,10 +66,18 @@ def content_recommender(titles,df1=df1):
     cgg = ggg.groupby('title')['action'].count().sort_values(ascending = False)
     #return first 10 titles to be recommended
     cb = []
-    for i in range(1,11):
+    for i in range(0,10):
         cb.append(cgg.index[i])
     x = pd.Series(cb)
     return x
+   except KeyError:
+    cg = df1.groupby('title')['action'].count().sort_values(ascending = False)
+    #return first 10 titles to be recommended
+    cb = []
+    for i in range(0,10):
+        cb.append(cg.index[i])
+    y = pd.Series(cb)
+    return y
 
 
 def action_recommender(id_):
@@ -78,7 +87,9 @@ def action_recommender(id_):
         content_recommender(title,df1)
     else:
         return None
-#simple test    
+#simple test for a title
 test = content_recommender('Task 2')
+#test for popularity filter
+test2 = content_recommender('ccc')
 
 
