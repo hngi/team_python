@@ -30,7 +30,7 @@ __`❍ pip3 install -r requirements.txt`__
 
 **5)** To get recommendations to articles, use this command:
 
-__`❍ python main_files/full_recommender.py 'Title of article'`__
+__`❍ python main_files/article_recommender.py 'Title of article'`__
 
 **6)** To get recommendations based on a user you followed, you'll be asked for username input:
 
