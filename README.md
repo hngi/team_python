@@ -32,4 +32,8 @@ __`❍ pip3 install -r requirements.txt`__
 
 __`❍ python full_recommender.py 'Title of article'`__
 
+**6)** To get recommendations based on a user you followed, use this command:
+__`O python user_recommend.py, then it will ask for the username `__
+
 __*Happy developing!*__
+
