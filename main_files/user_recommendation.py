@@ -1,16 +1,18 @@
 def user_recommendation():
     #import libraries
     import pandas as pd
+    import numpy as np
+    import sqlalchemy
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.metrics.pairwise import linear_kernel
 
+    # Create the database engine
+    engine = sqlalchemy.create_engine('mysql://root:@localhost:3306/lucid')
+    
     #reading the json file
-    ds = pd.read_json("C:/json_data/lucid_table_users.json")
+    ds = pd.read_sql_table('users', engine)
     #renaming the empty rows with space
     ds = ds.fillna(' ')
-
-    #printing the rows under the short bio
-    #print(ds['short_bio'])
 
     #analyzing the words in the column and removing common stop words, calculating the cosine similarities
     tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 3), min_df=0, stop_words='english')
