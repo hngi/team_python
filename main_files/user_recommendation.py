@@ -6,6 +6,7 @@ def user_recommendation():
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.metrics.pairwise import linear_kernel
 
+  try:  
     # Create the database engine
     engine = sqlalchemy.create_engine('mysql://root:@localhost:3306/lucid')
     
@@ -46,6 +47,9 @@ def user_recommendation():
             username = gg['username']
             print(nn + ", username " +username)
     recommended(item_username=uu, num=3)
+    
+  except KeyError:
+    print("We don't have any Username of such in our database!")
 
 if __name__=='__main__':
   user_recommendation()
